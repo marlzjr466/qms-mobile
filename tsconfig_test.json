@@ -1,0 +1,30 @@
+"compilerOptions": {
+  // ... other configs, if any
+  "baseUrl": "." ,
+  "paths": {
+    "@modules/*": [
+      "src/modules/*"
+    ],
+    "@hooks/*": [
+      "src/hooks/*"
+    ],
+    "@assets/*": [
+      "src/assets/*"
+    ],
+    "@stacks/*": [
+      "src/stacks/*"
+    ],
+    "@stores/*": [
+      "src/stores/*"
+    ],
+    "@modals/*": [
+      "src/modals/*"
+    ],
+    "@package/*": [
+      "src/package/*"
+    ],
+    "@components/*": [
+      "src/components/*"
+    ]
+  },
+}

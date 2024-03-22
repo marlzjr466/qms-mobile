@@ -1,13 +1,38 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { useEffect, memo } from 'react'
+import { StatusBar } from 'expo-status-bar'
+import { StyleSheet, View, BackHandler, Text } from 'react-native'
+import { ReduxMeta, ReDuxMetaProvider } from '@opensource-dev/redux-meta'
+// import { ReduxMeta, ReDuxMetaProvider } from './src/package/redux-meta'
 
-export default function App() {
+// stacks
+import Index from './src/stacks/Index' 
+
+// modules
+import deviceConnection from './src/modules/device-connection'
+import name from './src/modules/name'
+
+global.reduxMeta = new ReduxMeta()
+global.reduxMeta.useModules([
+  deviceConnection(),
+  name()
+])
+
+function App() { 
+	useEffect(() => { // disabling back handler button
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      console.log('back button execute...')
+      return true
+    })
+    return () => backHandler.remove() 
+  }, [])
+  
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    <ReDuxMetaProvider>
+      <View style={styles.container}>
+        <Index />
+      </View>
+    </ReDuxMetaProvider>  
+  )
 }
 
 const styles = StyleSheet.create({
@@ -17,4 +42,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-});
+})
+
+export default memo(App)
