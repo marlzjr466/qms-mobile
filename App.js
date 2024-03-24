@@ -1,21 +1,20 @@
 import { useEffect, memo } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, View, BackHandler, Text } from 'react-native'
+import { StyleSheet, BackHandler } from 'react-native'
 import { ReduxMeta, ReDuxMetaProvider } from '@opensource-dev/redux-meta'
-// import { ReduxMeta, ReDuxMetaProvider } from './src/package/redux-meta'
+import { NavigationContainer } from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+
+const Stack = createNativeStackNavigator()
 
 // stacks
-import Index from './src/stacks/Index' 
+import root from '@screens' 
 
 // modules
-import deviceConnection from './src/modules/device-connection'
-import name from './src/modules/name'
+import modules from '@modules'
 
 global.reduxMeta = new ReduxMeta()
-global.reduxMeta.useModules([
-  deviceConnection(),
-  name()
-])
+global.reduxMeta.useModules(modules())
 
 function App() { 
 	useEffect(() => { // disabling back handler button
@@ -28,9 +27,17 @@ function App() {
   
   return (
     <ReDuxMetaProvider>
-      <View style={styles.container}>
-        <Index />
-      </View>
+      <NavigationContainer style={styles.container}>
+        <StatusBar style="light" backgroundColor='#11335A' />
+
+        <Stack.Navigator>
+          <Stack.Screen
+            name = 'root'
+            component = { root }
+            options = {{ headerShown: false }}
+          />
+        </Stack.Navigator>
+		  </NavigationContainer>
     </ReDuxMetaProvider>  
   )
 }
@@ -41,7 +48,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  },
+  }
 })
 
-export default memo(App)
+export default memo (App)
