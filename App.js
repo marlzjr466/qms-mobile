@@ -8,7 +8,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 const Stack = createNativeStackNavigator()
 
 // stacks
-import root from '@screens' 
+import root from '@screens'
 
 // modules
 import modules from '@modules' 
