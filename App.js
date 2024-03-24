@@ -11,7 +11,7 @@ const Stack = createNativeStackNavigator()
 import root from '@screens' 
 
 // modules
-import modules from '@modules'
+import modules from '@modules' 
 
 global.reduxMeta = new ReduxMeta()
 global.reduxMeta.useModules(modules())
