@@ -28,7 +28,7 @@ function App() {
   return (
     <ReDuxMetaProvider>
       <NavigationContainer style={styles.container}>
-        <StatusBar style="light" backgroundColor='#11335A' />
+        <StatusBar style="dark" />
 
         <Stack.Navigator>
           <Stack.Screen

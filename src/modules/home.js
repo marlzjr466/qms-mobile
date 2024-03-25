@@ -3,7 +3,12 @@ export default () => ({
   name: 'home',
 
   // states
-  metaStates: {},
+  metaStates: {
+    header: {
+      greetings: 'Queueing\nManagement\nSystem',
+      message: "Deliver a high-quality services and improve citizens' waiting experience."
+    }
+  },
 
   // mutations
   metaMutations: {},
