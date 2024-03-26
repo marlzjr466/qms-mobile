@@ -5,7 +5,8 @@ import {
   MaterialIcons,
   Entypo,
   Feather,
-  Fontisto
+  Fontisto,
+  AntDesign
 } from '@expo/vector-icons'
   
 function BaseIcon ({ type, name, size, color, styles }) {
@@ -68,6 +69,15 @@ function BaseIcon ({ type, name, size, color, styles }) {
 
     case 'fontisto':
       icon = <Fontisto 
+          style={styles}
+          name={name ? name : null} 
+          size={size ? size : 25} 
+          color={color ? color : '#000'} 
+      />
+      break
+
+    case 'antdesign':
+      icon = <AntDesign 
           style={styles}
           name={name ? name : null} 
           size={size ? size : 25} 

@@ -1,5 +1,6 @@
 import { useEffect, memo, useState } from 'react'
 import { View } from 'react-native'
+import { LinearGradient } from 'expo-linear-gradient'
 
 // components
 import { useComponent } from '@components'
@@ -22,7 +23,10 @@ function home ({ goto, styles }) {
   } = useComponent()
 
   const meta = {
-    ...metaStates('home', ['header'])
+    ...metaStates('home', [
+      'header',
+      'setup'
+    ])
   }
 
   return (
@@ -32,7 +36,19 @@ function home ({ goto, styles }) {
         styles={style.contentBG}
       />
 
-      <View style={style.hero}></View>
+      <LinearGradient
+        style={style.hero}
+        colors={['#ffa52e', '#ff651a']}
+        start={{ x: -1, y: 0 }}
+        end={{ x: 1, y: 0 }}
+      >
+        {/* <BaseIcon
+          styles={style.heroIcon}
+          type='materialicons'
+          name='cast-connected'
+        /> */}
+      </LinearGradient>
+
       <BaseImage
         src={images.hero}
         styles={style.heroImage}
@@ -51,12 +67,70 @@ function home ({ goto, styles }) {
         </BaseText>
       </View>
 
-      {/* <View style={style.setupPanel}>
-        <BaseImage
-          src={images.loginBG}
-          styles={style.setupPanelBG}
-        />
-      </View> */}
+      <View style={style.setupPanel}>
+        {
+          meta.setup.map((item, key) => {
+            return (
+              <LinearGradient
+                key={key}
+                style={style.setupItem}
+                colors={item.background}
+                start={{ x: -1, y: 0 }}
+                end={{ x: 1, y: 0 }}
+              >
+                <View style={style.setupTitle}>
+                  <BaseText
+                    styles={style.setupHeadText}
+                    bold={true}
+                  >
+                    { item.title }
+                  </BaseText>
+
+                  <BaseText styles={style.setupTextValue}>
+                    { item.host }
+                  </BaseText>
+
+                  <BaseButton
+                    buttonStyle={style.setupBtn}
+                    gradient={true}
+                    gradientColors={['#ffc72b', '#ff971e']}
+                  >
+                    <BaseText styles={style.setupBtnText}>
+                      { item.buttonText }
+                    </BaseText>
+                  </BaseButton>
+                </View>
+                
+                <BaseIcon
+                  styles={style.setupIcon}
+                  type={item.icon.type}
+                  name={item.icon.name}
+                />
+              </LinearGradient>
+            )
+          })
+        }
+      </View>
+
+      <View style={style.startPanel}>
+        <LinearGradient
+          style={style.startWrapper}
+          colors={['#ffbf6a', '#ff651a']}
+          start={{ x: -1, y: 0 }}
+          end={{ x: 1, y: 0 }}
+        >
+          <BaseButton
+            buttonStyle={style.startBtn}
+          >
+            <BaseText
+              styles={style.startBtnText}
+              bold={true}
+            >
+              Start Queueing
+            </BaseText>
+          </BaseButton>
+        </LinearGradient>
+      </View>
     </View>
   )
 }
