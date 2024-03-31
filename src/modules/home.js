@@ -12,7 +12,7 @@ export default () => ({
     setup: [
       {
         title: 'CONNECTION',
-        host: '--.--.--.-:----',
+        host: '',
         buttonText: 'Setup connection',
         background: ['#21e7ad', '#3770f5'],
         icon: {
@@ -22,7 +22,7 @@ export default () => ({
       },
       {
         title: 'PRINTER',
-        host: '--.--.--.-:----',
+        host: '',
         buttonText: 'Setup printer',
         background: ['#fc426f', '#8c52e7'],
         icon: {
@@ -30,11 +30,24 @@ export default () => ({
           name: 'printer'
         }
       }
-    ]
+    ],
+
+    modal: {
+      setupConnection: false,
+      setupPrinter: false
+    }
   },
 
   // mutations
-  metaMutations: {},
+  metaMutations: {
+    SET_MODAL: (state, { payload }) => {
+      state.modal[payload] = !state.modal[payload]
+    },
+
+    SET_HOST: (state, { payload }) => {
+      state.setup[0].host = payload.host
+    }
+  },
 
   // getters
   metaGetters: {},

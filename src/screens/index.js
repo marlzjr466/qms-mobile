@@ -2,7 +2,7 @@ import { useEffect, memo } from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 // assets
-import styles from '@assets/styles'
+import styles from '@assets/style'
 
 // stack
 import stacks from '@stacks'

@@ -1,60 +1,67 @@
 import { useEffect, memo, useState } from 'react'
-import { View } from 'react-native'
-import { LinearGradient } from 'expo-linear-gradient'
 
 // components
 import { useComponent } from '@components'
+const {
+  BaseText,
+  BaseIcon,
+  BaseButton,
+  BaseImage,
+  BaseDiv,
+  BaseGradient
+} = useComponent()
+
+// modals
+import { useModal } from '@modals'
+const { SetupConnection } = useModal()
 
 // images
 import { images } from '@assets/images'
 
 function home ({ goto, styles }) {
   // meta
-  const { metaStates } = global.reduxMeta.useMeta()
+  const { metaStates, metaMutations } = global.reduxMeta.useMeta()
 
   // styles
   const style = styles['home']
 
-  const {
-    BaseText,
-    BaseIcon,
-    BaseButton,
-    BaseImage
-  } = useComponent()
-
   const meta = {
     ...metaStates('home', [
       'header',
-      'setup'
+      'setup',
+      'modal'
+    ]),
+
+    ...metaMutations('home', [
+      'SET_MODAL'
     ])
   }
 
   return (
-    <View style={style.container}>
+    <BaseDiv styles={style.container}>
       <BaseImage
         src={images.contentBG}
         styles={style.contentBG}
       />
 
-      <LinearGradient
-        style={style.hero}
+      <BaseGradient
+        styles={style.hero}
         colors={['#ffa52e', '#ff651a']}
-        start={{ x: -1, y: 0 }}
-        end={{ x: 1, y: 0 }}
+        horizontal={true}
       >
         {/* <BaseIcon
           styles={style.heroIcon}
           type='materialicons'
           name='cast-connected'
         /> */}
-      </LinearGradient>
+      </BaseGradient>
 
       <BaseImage
         src={images.hero}
         styles={style.heroImage}
       />
 
-      <View style={style.header}>
+      <BaseDiv styles={style.header}>
         <BaseText
           styles={style.greetings}
           bold={true}
@@ -65,20 +72,19 @@ function home ({ goto, styles }) {
         <BaseText styles={style.headText}>
           { meta.header.message }
         </BaseText>
-      </View>
+      </BaseDiv>
 
-      <View style={style.setupPanel}>
+      <BaseDiv styles={style.setupPanel}>
         {
           meta.setup.map((item, key) => {
             return (
-              <LinearGradient
+              <BaseGradient
                 key={key}
-                style={style.setupItem}
+                styles={style.setupItem}
                 colors={item.background}
-                start={{ x: -1, y: 0 }}
-                end={{ x: 1, y: 0 }}
+                horizontal={true}
               >
-                <View style={style.setupTitle}>
+                <BaseDiv styles={style.setupTitle}>
                   <BaseText
                     styles={style.setupHeadText}
                     bold={true}
@@ -87,40 +93,48 @@ function home ({ goto, styles }) {
                   </BaseText>
 
                   <BaseText styles={style.setupTextValue}>
-                    { item.host }
+                    { item.host || '--.--.--.-:----' }
                   </BaseText>
 
                   <BaseButton
                     buttonStyle={style.setupBtn}
                     gradient={true}
                     gradientColors={['#ffc72b', '#ff971e']}
+                    action={() => {
+                      if (item.title == 'CONNECTION') {
+                        meta.SET_MODAL('setupConnection')
+                      }
+                    }}
                   >
                     <BaseText styles={style.setupBtnText}>
                       { item.buttonText }
                     </BaseText>
                   </BaseButton>
-                </View>
+                </BaseDiv>
                 
                 <BaseIcon
                   styles={style.setupIcon}
                   type={item.icon.type}
                   name={item.icon.name}
                 />
-              </LinearGradient>
+              </BaseGradient>
             )
           })
         }
-      </View>
+      </BaseDiv>
 
-      <View style={style.startPanel}>
-        <LinearGradient
-          style={style.startWrapper}
+      <BaseDiv styles={style.startPanel}>
+        <BaseGradient
+          styles={{
+            ...style.startWrapper,
+            opacity: !meta.setup[0].host || !meta.setup[1].host ? .5 : 1
+          }}
           colors={['#ffbf6a', '#ff651a']}
-          start={{ x: -1, y: 0 }}
-          end={{ x: 1, y: 0 }}
+          horizontal={true}
         >
           <BaseButton
             buttonStyle={style.startBtn}
+            disabled={!meta.setup[0].host || !meta.setup[1].host}
           >
             <BaseText
               styles={style.startBtnText}
@@ -129,9 +143,14 @@ function home ({ goto, styles }) {
               Start Queueing
             </BaseText>
           </BaseButton>
-        </LinearGradient>
-      </View>
-    </View>
+        </BaseGradient>
+      </BaseDiv>
+    
+      {
+        meta.modal.setupConnection && <SetupConnection />
+      }
+      
+    </BaseDiv>
   )
 }
 
