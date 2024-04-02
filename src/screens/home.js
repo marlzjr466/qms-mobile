@@ -1,5 +1,8 @@
 import { useEffect, memo, useState } from 'react'
 
+// package
+import rnStyle from '@package/rn-style'
+
 // components
 import { useComponent } from '@components'
 const {
@@ -36,6 +39,8 @@ function home ({ goto, styles }) {
       'SET_MODAL'
     ])
   }
+
+  rnStyle('flex mt-[100] p-[100%]')
 
   return (
     <BaseDiv styles={style.container}>
