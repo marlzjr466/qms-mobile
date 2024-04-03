@@ -1,7 +1,5 @@
 import { useEffect, memo, useState } from 'react'
-
-// package
-import rnStyle from '@package/rn-style'
+import { Dimensions } from 'react-native'
 
 // components
 import { useComponent } from '@components'
@@ -21,6 +19,7 @@ const { SetupConnection } = useModal()
 // images
 import { images } from '@assets/images'
 
+const windowWidth = Dimensions.get('window').width
 function home ({ goto, styles }) {
   // meta
   const { metaStates, metaMutations } = global.reduxMeta.useMeta()
@@ -40,33 +39,26 @@ function home ({ goto, styles }) {
     ])
   }
 
-  rnStyle('flex mt-[100] p-[100%]')
-
   return (
-    <BaseDiv styles={style.container}>
+    <BaseDiv styles="flex-1 bg-[#fff] ph-[20]">
       <BaseImage
         src={images.contentBG}
-        styles={style.contentBG}
+        styles="absolute top right w-[300] h-[450] opacity-[.05]"
       />
 
       <BaseGradient
-        styles={style.hero}
+        styles="flex row-reverse h-[160] bblr-[50] bbrr-[200] absolute top left right overflow-hidden"
         colors={['#ffa52e', '#ff651a']}
         horizontal={true}
       >
-        {/* <BaseIcon
-          styles={style.heroIcon}
-          type='materialicons'
-          name='cast-connected'
-        /> */}
       </BaseGradient>
 
       <BaseImage
         src={images.hero}
-        styles={style.heroImage}
+        styles="w-[180] h-[180] absolute top-[50] right-[20]"
       />
 
-      <BaseDiv styles={style.header}>
+      <BaseDiv styles={`w-[${windowWidth-40}] flex mt-[190] gap-[10]`}>
         <BaseText
           styles={style.greetings}
           bold={true}
@@ -79,17 +71,17 @@ function home ({ goto, styles }) {
         </BaseText>
       </BaseDiv>
 
-      <BaseDiv styles={style.setupPanel}>
+      <BaseDiv styles={`w-[${windowWidth-40}] flex pv-[30] gap-[10]`}>
         {
           meta.setup.map((item, key) => {
             return (
               <BaseGradient
                 key={key}
-                styles={style.setupItem}
+                styles="relative w-[100%] h-[140] flex row items-center space-between br-[15] p-[20]"
                 colors={item.background}
                 horizontal={true}
               >
-                <BaseDiv styles={style.setupTitle}>
+                <BaseDiv styles="flex h-[100%] gap-[5]">
                   <BaseText
                     styles={style.setupHeadText}
                     bold={true}
@@ -128,12 +120,10 @@ function home ({ goto, styles }) {
         }
       </BaseDiv>
 
-      <BaseDiv styles={style.startPanel}>
+      <BaseDiv styles="flex w-[100%] items-center absolute bottom-[30] left-[20]">
         <BaseGradient
-          styles={{
-            ...style.startWrapper,
-            opacity: !meta.setup[0].host || !meta.setup[1].host ? .5 : 1
-          }}
+          styles="w-[230] h-[60] br-[40] p-[4]"
+          customStyles={{ opacity: !meta.setup[0].host || !meta.setup[1].host ? .5 : 1 }}
           colors={['#ffbf6a', '#ff651a']}
           horizontal={true}
         >

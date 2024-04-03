@@ -20,16 +20,15 @@ export default {
   },
 
   hero: {
-    width: windowWidth,
     display: 'flex',
     height: 160,
     flexDirection: 'row-reverse',
-    paddingHorizontal: 20,
     borderBottomLeftRadius: 50,
     borderBottomRightRadius: 200,
     position: 'absolute',
     top: 0,
     left: 0,
+    right: 0,
     backgroundColor: '#f49531',
     overflow: 'hidden'
   },
@@ -53,7 +52,6 @@ export default {
   header: {
     width: windowWidth - 40,
     display: 'flex',
-    marginTop: 15,
     marginTop: 190,
     gap: 10
   },

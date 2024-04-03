@@ -1,9 +1,18 @@
 import { Image } from 'react-native'
+import rnStyle from '@package/rn-style'
 
-function BaseImage ({ styles, src }) {
+function BaseImage ({ styles, src, customStyles }) {
+  let STYLES = rnStyle(styles)
+  if (customStyles) {
+    STYLES = {
+      ...STYLES,
+      ...customStyles
+    }
+  }
+
   return (
     <Image 
-      style = { styles }
+      style = { STYLES }
       source = { src }
     />
   )

@@ -1,11 +1,13 @@
 import * as Animatable from 'react-native-animatable'
 import { View, ScrollView } from 'react-native'
 import { useRef } from 'react'
+import rnStyle from '@package/rn-style'
 
 export default function BaseDiv ({
   children,
   layout,
   styles,
+  customStyles,
   scrollable,
   scrollToBottom,
   animatable,
@@ -14,11 +16,19 @@ export default function BaseDiv ({
 }) {
   const scrollViewRef = useRef()
 
+  let STYLES = rnStyle(styles)
+  if (customStyles) {
+    STYLES = {
+      ...STYLES,
+      ...customStyles
+    }
+  }
+
   let wrapper = null
 
   animatable
     ?  wrapper = <Animatable.View
-        style = { styles }
+        style = { STYLES }
         animation = { animation }
         duration = { duration }
       >
@@ -38,11 +48,11 @@ export default function BaseDiv ({
           height: '100%'
         }}
       >
-        <View style = { styles }>
+        <View style = { STYLES }>
           { children }
         </View>
       </ScrollView>
-      : <View style = { styles }>
+      : <View style = { STYLES }>
         { children }
       </View>
 

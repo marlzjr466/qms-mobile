@@ -32,7 +32,14 @@ export default function SetupConnection () {// meta
   return (
     <BaseModal styles={style.container}>
       <BaseDiv
-        styles={style.setupConnection}
+        styles="flex w-[100%] p-[20] bg-[#fff] br-[10] t-[250] gap-[5]"
+        customStyles={{
+          shadowColor: '#171717',
+          shadowOffset: {width: -2, height: 4},
+          shadowOpacity: 0.2,
+          shadowRadius: 3,
+          elevation: 10
+        }}
         animatable={true}
         animation='bounceIn'
         duration={1500}
@@ -50,7 +57,7 @@ export default function SetupConnection () {// meta
           action={value => setHost(value)}
         />
 
-        <BaseDiv styles={style.setupBtnContainer}>
+        <BaseDiv styles="flex row w-[100%] gap-[5]">
           <BaseGradient
             styles={style.setupBtnWrapper}
             colors={['#F8F8F8', '#727272']}
