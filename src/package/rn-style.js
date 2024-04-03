@@ -51,7 +51,7 @@ function getProperty (property) {
     'col-reverse': ['flexDirection', 'column-reverse'],
     'row': ['flexDirection', 'row'],
     'row-reverse': ['flexDirection', 'row-reverse'],
-    'space-between': ['justifyContent', 'space-between'],
+    'justify-between': ['justifyContent', 'space-between'],
     'items-center': ['alignItems', 'center'],
 
     // margin
@@ -97,7 +97,6 @@ function getProperty (property) {
   }
 
   if (!(property in styles)) {
-    console.log('-------------', property)
     return 'Invalid property'
   }
 

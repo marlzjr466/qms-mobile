@@ -77,7 +77,7 @@ function home ({ goto, styles }) {
             return (
               <BaseGradient
                 key={key}
-                styles="relative w-[100%] h-[140] flex row items-center space-between br-[15] p-[20]"
+                styles="relative w-[100%] h-[140] flex row items-center justify-between br-[15] p-[20]"
                 colors={item.background}
                 horizontal={true}
               >
@@ -88,6 +88,7 @@ function home ({ goto, styles }) {
                   >
                     { item.title }
                   </BaseText>
+
 
                   <BaseText styles={style.setupTextValue}>
                     { item.host || '--.--.--.-:----' }
