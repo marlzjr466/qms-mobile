@@ -22,14 +22,15 @@ export default str => {
   
           let style = {}
           if (Array.isArray(properties)) {
+            const [props, val] = properties
             style = {
-              [properties[0]]: properties[1]
+              [props]: val
             }
           } else {
             style = {
               [properties]: value
-                ? isNumber(value) || value.includes('.')
-                  ? +value 
+                ? isNumber(value) || (properties === 'opacity' && value.includes('.') || value.includes('-'))
+                  ? +(value) 
                   : value
                 : 0
             }
@@ -52,6 +53,7 @@ function getProperty (property) {
     'row': ['flexDirection', 'row'],
     'row-reverse': ['flexDirection', 'row-reverse'],
     'justify-between': ['justifyContent', 'space-between'],
+    'justify-center': ['justifyContent', 'center'],
     'items-center': ['alignItems', 'center'],
 
     // margin
@@ -79,20 +81,28 @@ function getProperty (property) {
     bbrr: 'borderBottomRightRadius',
     btrr: 'borderTopRightRadius',
 
+    // border
+    bc: 'borderColor',
+    bw: 'borderWidth',
+
     // position
     absolute: ['position', 'absolute'],
     relative: ['position', 'relative'],
+    fixed: ['position', 'fixed'],
 
     // sides
     top: 'top',
     left: 'left',
     bottom: 'bottom',
     right: 'right',
+    inset: ['inset', 0],
 
     w: 'width',
     h: 'height',
     bg: 'backgroundColor',
     opacity: 'opacity',
+    color: 'color',
+    fs: 'fontSize',
     'overflow-hidden': ['overflow', 'hidden']
   }
 

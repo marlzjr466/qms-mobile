@@ -2,10 +2,19 @@ import { useCallback } from 'react'
 import { Text } from 'react-native'
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
+import rnStyle from '@package/rn-style'
 
 SplashScreen.preventAutoHideAsync()
 
-function BaseText({ children, text, styles, ellipsis, bold }) {
+function BaseText({ children, text, styles, customStyles, ellipsis, bold }) {
+  let STYLES = rnStyle(styles)
+  if (customStyles) {
+    STYLES = {
+      ...STYLES,
+      ...customStyles
+    }
+  }
+
   const [fontsLoaded] = useFonts({
     'Righteous-Regular': require('@assets/fonts/Technica_Regular.ttf'),
     'Technica-Semi-Bold': require('@assets/fonts/Technica_Semi_Bold.ttf'),
@@ -26,7 +35,7 @@ function BaseText({ children, text, styles, ellipsis, bold }) {
 			<Text 
         onLayout={onLayoutRootView}
         style={[
-            styles,
+            STYLES,
             { fontFamily: bold ? 'Technica-Semi-Bold' : 'Righteous-Regular' }
         ]}
         numberOfLines={ellipsis ? ellipsis : null}

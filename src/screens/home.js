@@ -60,13 +60,13 @@ function home ({ goto, styles }) {
 
       <BaseDiv styles={`w-[${windowWidth-40}] flex mt-[190] gap-[10]`}>
         <BaseText
-          styles={style.greetings}
+          styles="color-[#11335a] fs-[15]"
           bold={true}
         >
           { meta.header.greetings }
         </BaseText>
 
-        <BaseText styles={style.headText}>
+        <BaseText styles={`w-[${windowWidth-40}] color-[rgba(0,0,0,.5)] fs-[13]`}>
           { meta.header.message }
         </BaseText>
       </BaseDiv>
@@ -83,19 +83,19 @@ function home ({ goto, styles }) {
               >
                 <BaseDiv styles="flex h-[100%] gap-[5]">
                   <BaseText
-                    styles={style.setupHeadText}
+                    styles="color-[#fff] fs-[20]"
                     bold={true}
                   >
                     { item.title }
                   </BaseText>
 
 
-                  <BaseText styles={style.setupTextValue}>
+                  <BaseText styles="color-[rgba(255,255,255,.7)] fs-[15]">
                     { item.host || '--.--.--.-:----' }
                   </BaseText>
 
                   <BaseButton
-                    buttonStyle={style.setupBtn}
+                    styles="pv-[10] ph-[15] bg-[#fff] mt-[20] br-[30]"
                     gradient={true}
                     gradientColors={['#ffc72b', '#ff971e']}
                     action={() => {
@@ -104,14 +104,14 @@ function home ({ goto, styles }) {
                       }
                     }}
                   >
-                    <BaseText styles={style.setupBtnText}>
+                    <BaseText styles="color-[#fff]">
                       { item.buttonText }
                     </BaseText>
                   </BaseButton>
                 </BaseDiv>
                 
                 <BaseIcon
-                  styles={style.setupIcon}
+                  styles="absolute bottom-[-30] right-[-30] fs-[140] color-[#fff] opacity-[.2]"
                   type={item.icon.type}
                   name={item.icon.name}
                 />
@@ -129,11 +129,11 @@ function home ({ goto, styles }) {
           horizontal={true}
         >
           <BaseButton
-            buttonStyle={style.startBtn}
+            styles="w-[100%] h-[100%] br-[40] bw-[4] bc-[#fff] flex justify-center items-center"
             disabled={!meta.setup[0].host || !meta.setup[1].host}
           >
             <BaseText
-              styles={style.startBtnText}
+              styles="color-[#11335a] opacity-[.7] fs-[15]"
               bold={true}
             >
               Start Queueing

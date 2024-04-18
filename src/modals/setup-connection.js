@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import styles from '@assets/style'
+import { Dimensions } from 'react-native'
 
 // components
 import { useComponent } from '@components'
@@ -14,6 +15,7 @@ const {
   BaseGradient
 } = useComponent()
 
+const windowWidth = Dimensions.get('window').width
 export default function SetupConnection () {// meta
   const { metaStates, metaMutations } = global.reduxMeta.useMeta()
   const style = styles['modal']
@@ -30,9 +32,9 @@ export default function SetupConnection () {// meta
   const [host, setHost] = useState(meta.setup[0].host)
   
   return (
-    <BaseModal styles={style.container}>
+    <BaseModal styles={`w-[${windowWidth}] h-[100%] bg-[rgba(0,0,0,.3)] absolute ph-[25]`}>
       <BaseDiv
-        styles="flex w-[100%] p-[20] bg-[#fff] br-[10] t-[250] gap-[5]"
+        styles="flex w-[100%] p-[20] bg-[#fff] br-[10] top-[250] gap-[5]"
         customStyles={{
           shadowColor: '#171717',
           shadowOffset: {width: -2, height: 4},
@@ -45,29 +47,29 @@ export default function SetupConnection () {// meta
         duration={1500}
       >
         <BaseText
-          styles={style.setupConnectionTitle}
+          styles="color-[rgba(0,0,0,.4)] pl-[3]"
           bold={true}
         >
           Server Host:
         </BaseText>
 
         <BaseInput
-          styles={style.setupConnectionInput}
+          styles="w-[100%] h-[40] bc-[rgba(255,151,30,.3)] bw-[1] br-[20] ph-[10] fs-[15]"
           value={host}
           action={value => setHost(value)}
         />
 
         <BaseDiv styles="flex row w-[100%] gap-[5]">
           <BaseGradient
-            styles={style.setupBtnWrapper}
+            styles="w-[50%] h-[40] br-[40] p-[2] mt-[15]"
             colors={['#F8F8F8', '#727272']}
           >
             <BaseButton
-              buttonStyle={style.setupBtn}
+              styles="w-[100%] h-[100%] br-[40] bw-[2] bc-[#fff] flex justify-center items-center"
               action={() => meta.SET_MODAL('setupConnection')}
             >
               <BaseText
-                styles={style.setupBtnText}
+                styles="color-[#fff] opacity-[.7] fs-[15]"
                 bold={true}
               >
                 Cancel
@@ -76,14 +78,14 @@ export default function SetupConnection () {// meta
           </BaseGradient>
 
           <BaseGradient
-            styles={{
-              ...style.setupBtnWrapper,
+            styles="w-[50%] h-[40] br-[40] p-[2] mt-[15]"
+            customStyles={{
               opacity: host === '' ? .5 : 1
             }}
             colors={['#ffbf6a', '#ff651a']}
           >
             <BaseButton
-              buttonStyle={style.setupBtn}
+              styles="w-[100%] h-[100%] br-[40] bw-[2] bc-[#fff] flex justify-center items-center"
               disabled={host === ''}
               action={() => {
                 meta.SET_HOST({
@@ -96,7 +98,7 @@ export default function SetupConnection () {// meta
               }}
             >
               <BaseText
-                styles={style.setupBtnText}
+                styles="color-[#fff] opacity-[.7] fs-[15]"
                 bold={true}
               >
                 Set host

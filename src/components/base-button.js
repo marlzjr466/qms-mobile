@@ -1,19 +1,24 @@
 import { TouchableOpacity, Text } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
-
-import BaseIcon from './base-icon'
+import rnStyle from '@package/rn-style'
 
 function BaseButton ({
   children,
-  text,
-  icon,
-  buttonStyle,
-  buttonTextStyle,
+  styles,
+  customStyles,
   disabled,
   gradient, 
   gradientColors, 
   action 
 }) {
+  let STYLES = rnStyle(styles)
+  if (customStyles) {
+    STYLES = {
+      ...STYLES,
+      ...customStyles
+    }
+  }
+
 	return (
 		<>
       {
@@ -23,51 +28,19 @@ function BaseButton ({
             disabled={disabled}
           >
             <LinearGradient 
-              style={buttonStyle}
+              style={STYLES}
               colors={gradientColors}
-            >   
-              {
-                icon
-                  ? <BaseIcon
-                    styles={icon.styles}
-                    type={icon.type}
-                    name={icon.name}
-                    size={icon.size}
-                    color={icon.color}
-                  />
-                  : null
-              }
-
-              {
-                children ? 
-                  children :
-                  <Text style={buttonTextStyle}>{text}</Text>
-              }
+            >  
+              { children }
             </LinearGradient>
           </TouchableOpacity> :
 
           <TouchableOpacity
-            style={buttonStyle}
+            style={STYLES}
             onPress={action}
             disabled={disabled}
           >   
-            {
-              icon 
-                ? <BaseIcon
-                  styles={icon.styles}
-                  type={icon.type}
-                  name={icon.name}
-                  size={icon.size}
-                  color={icon.color}
-                />
-                : null
-            }
-            
-            {
-              children ? 
-                children :
-                <Text style={buttonTextStyle}>{text}</Text>
-            }
+            { children }
           </TouchableOpacity>
       }
 		</>

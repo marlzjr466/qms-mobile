@@ -8,14 +8,23 @@ import {
   Fontisto,
   AntDesign
 } from '@expo/vector-icons'
+import rnStyle from '@package/rn-style'
   
-function BaseIcon ({ type, name, size, color, styles }) {
+function BaseIcon ({ type, name, size, color, styles, customStyles }) {
+  let STYLES = rnStyle(styles)
+  if (customStyles) {
+    STYLES = {
+      ...STYLES,
+      ...customStyles
+    }
+  }
+
   let icon = null
 
   switch(type) {
     case 'foundation':
       icon = <Foundation 
-          style={styles}
+          style={STYLES}
           name={name ? name : null} 
           size={size ? size : 25} 
           color={color ? color : '#000'} 
@@ -24,7 +33,7 @@ function BaseIcon ({ type, name, size, color, styles }) {
 
     case 'fontawesome':
       icon = <FontAwesome
-          style={styles}
+          style={STYLES}
           name={name ? name : null} 
           size={size ? size : 25} 
           color={color ? color : '#000'} 
@@ -33,7 +42,7 @@ function BaseIcon ({ type, name, size, color, styles }) {
 
     case 'ionicons':
       icon = <Ionicons
-          style={styles}
+          style={STYLES}
           name={name ? name : null} 
           size={size ? size : 25} 
           color={color ? color : '#000'} 
@@ -42,7 +51,7 @@ function BaseIcon ({ type, name, size, color, styles }) {
 
     case 'materialicons':
       icon = <MaterialIcons
-          style={styles}
+          style={STYLES}
           name={name ? name : null} 
           size={size ? size : 25} 
           color={color ? color : '#000'} 
@@ -51,7 +60,7 @@ function BaseIcon ({ type, name, size, color, styles }) {
     
     case 'entypo':
       icon = <Entypo
-          style={styles}
+          style={STYLES}
           name={name ? name : null} 
           size={size ? size : 25} 
           color={color ? color : '#000'} 
@@ -60,7 +69,7 @@ function BaseIcon ({ type, name, size, color, styles }) {
 
     case 'feather':
       icon = <Feather 
-          style={styles}
+          style={STYLES}
           name={name ? name : null} 
           size={size ? size : 25} 
           color={color ? color : '#000'} 
@@ -69,7 +78,7 @@ function BaseIcon ({ type, name, size, color, styles }) {
 
     case 'fontisto':
       icon = <Fontisto 
-          style={styles}
+          style={STYLES}
           name={name ? name : null} 
           size={size ? size : 25} 
           color={color ? color : '#000'} 
@@ -78,7 +87,7 @@ function BaseIcon ({ type, name, size, color, styles }) {
 
     case 'antdesign':
       icon = <AntDesign 
-          style={styles}
+          style={STYLES}
           name={name ? name : null} 
           size={size ? size : 25} 
           color={color ? color : '#000'} 

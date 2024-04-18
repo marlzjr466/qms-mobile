@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { TextInput } from 'react-native'
+import rnStyle from '@package/rn-style'
 
 export default function BaseInput({
   styles,
+  customStyles,
   secure,
   placeholder,
   type,
@@ -10,9 +12,17 @@ export default function BaseInput({
   editable,
   action
 }) {
+  let STYLES = rnStyle(styles)
+  if (customStyles) {
+    STYLES = {
+      ...STYLES,
+      ...customStyles
+    }
+  }
+
   return (
     <TextInput
-      style = { styles }
+      style = { STYLES }
       keyboardType = { type || null }
       secureTextEntry = { secure }
       placeholder = { placeholder }
