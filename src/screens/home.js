@@ -20,12 +20,9 @@ const { SetupConnection } = useModal()
 import { images } from '@assets/images'
 
 const windowWidth = Dimensions.get('window').width
-function home ({ goto, styles }) {
+function home ({ goto }) {
   // meta
   const { metaStates, metaMutations } = global.reduxMeta.useMeta()
-
-  // styles
-  const style = styles['home']
 
   const meta = {
     ...metaStates('home', [
