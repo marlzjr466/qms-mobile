@@ -8,20 +8,7 @@ import styles from '@assets/style'
 import stacks from '@stacks'
 const Stack = createNativeStackNavigator()
 
-// hooks
-import { useBLE } from '@hooks/useBLE'
-
 function index ({ navigation }) {
-  const {
-		requestPermissions,
-		scanForPeripherals,
-		allDevices,
-		connectToDevice,
-		connectedDevice,
-		printer,
-		disconnectFromDevice
-	} = useBLE()
-
   const screenOptions = { 
     headerShown: false, 
     animation: 'slide_from_right' 
@@ -37,19 +24,7 @@ function index ({ navigation }) {
     )
 	}
 
-  // ask bluetooth permission
-  const askPermission = async () => {
-    const permission = await requestPermissions()
-
-    if (permission) {
-      if (!connectedDevice) {
-        scanForPeripherals()
-      }
-    }
-  }
-
   useEffect(() => {
-    askPermission()
     goto({ parent: 'root', child: 'home' })
   }, [])
 

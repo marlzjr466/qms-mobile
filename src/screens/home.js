@@ -1,5 +1,4 @@
 import { useEffect, memo, useState } from 'react'
-import { Dimensions } from 'react-native'
 
 // components
 import { useComponent } from '@components'
@@ -14,15 +13,17 @@ const {
 
 // modals
 import { useModal } from '@modals'
-const { SetupConnection } = useModal()
+const { SetupConnection, DeviceConnection } = useModal()
+
+// hooks
+import { useBLE } from '@hooks/useBLE'
 
 // images
 import { images } from '@assets/images'
 
-const windowWidth = Dimensions.get('window').width
 function home ({ goto }) {
   // meta
-  const { metaStates, metaMutations } = global.reduxMeta.useMeta()
+  const { metaStates, metaMutations } = global.$reduxMeta.useMeta()
 
   const meta = {
     ...metaStates('home', [
@@ -35,6 +36,31 @@ function home ({ goto }) {
       'SET_MODAL'
     ])
   }
+  
+  const {
+    requestPermissions,
+    scanForPeripherals,
+    allDevices,
+    connectToDevice,
+    connectedDevice,
+    printer,
+    disconnectFromDevice
+  } = useBLE()
+
+  // ask bluetooth permission
+  const askPermission = async () => {
+    const permission = await requestPermissions()
+
+    if (permission) {
+      if (!connectedDevice) {
+        scanForPeripherals()
+      }
+    }
+  }
+
+  useEffect(() => {
+    askPermission()
+  }, [])
 
   return (
     <BaseDiv styles="flex-1 bg-[#fff] ph-[20]">
@@ -55,7 +81,7 @@ function home ({ goto }) {
         styles="w-[180] h-[180] absolute top-[50] right-[20]"
       />
 
-      <BaseDiv styles={`w-[${windowWidth-40}] flex mt-[190] gap-[10]`}>
+      <BaseDiv styles={`w-[${global.$windowWidth-40}] flex mt-[190] gap-[10]`}>
         <BaseText
           styles="color-[#11335a] fs-[15]"
           bold={true}
@@ -63,12 +89,12 @@ function home ({ goto }) {
           { meta.header.greetings }
         </BaseText>
 
-        <BaseText styles={`w-[${windowWidth-40}] color-[rgba(0,0,0,.5)] fs-[13]`}>
+        <BaseText styles={`w-[${global.$windowWidth-40}] color-[rgba(0,0,0,.5)] fs-[13]`}>
           { meta.header.message }
         </BaseText>
       </BaseDiv>
 
-      <BaseDiv styles={`w-[${windowWidth-40}] flex pv-[30] gap-[10]`}>
+      <BaseDiv styles={`w-[${global.$windowWidth-40}] flex pv-[30] gap-[10]`}>
         {
           meta.setup.map((item, key) => {
             return (
@@ -96,9 +122,11 @@ function home ({ goto }) {
                     gradient={true}
                     gradientColors={['#ffc72b', '#ff971e']}
                     action={() => {
-                      if (item.title == 'CONNECTION') {
-                        meta.SET_MODAL('setupConnection')
-                      }
+                      meta.SET_MODAL(
+                        item.title === 'CONNECTION'
+                          ? 'setupConnection'
+                          : 'setupPrinter'
+                      )
                     }}
                   >
                     <BaseText styles="color-[#fff]">
@@ -143,6 +171,13 @@ function home ({ goto }) {
         meta.modal.setupConnection && <SetupConnection />
       }
       
+      {
+        meta.modal.setupPrinter &&
+        <DeviceConnection
+          connectToPeripheral={connectToDevice}
+          devices={allDevices}
+        />  
+      }
     </BaseDiv>
   )
 }

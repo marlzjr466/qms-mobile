@@ -33,7 +33,7 @@ const DeviceModalListItem = props => {
 const DeviceModal = props => {
   const { devices, connectToPeripheral, closeModal } = props
   
-  const { metaStates, metaActions } = global.reduxMeta.useMeta()
+  const { metaStates, metaActions } = global.$reduxMeta.useMeta()
   const meta = {
     ...metaStates('device-connection', ['deviceModal']),
     ...metaActions('device-connection', ['showDeviceModal'])

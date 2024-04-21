@@ -1,12 +1,15 @@
 import { LinearGradient } from 'expo-linear-gradient'
-import rnStyle from '@package/rn-style'
 
 export default function BaseGradient ({ children, styles, customStyles, colors, horizontal }) {
-  let STYLES = rnStyle(styles)
-  if (customStyles) {
-    STYLES = {
-      ...STYLES,
-      ...customStyles
+  let STYLES = {}
+
+  if (styles) {
+    STYLES = global.$rnStyle(styles)
+    if (customStyles) {
+      STYLES = {
+        ...STYLES,
+        ...customStyles
+      }
     }
   }
 

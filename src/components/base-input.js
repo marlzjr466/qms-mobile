@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { TextInput } from 'react-native'
-import rnStyle from '@package/rn-style'
 
 export default function BaseInput({
   styles,
@@ -12,14 +11,18 @@ export default function BaseInput({
   editable,
   action
 }) {
-  let STYLES = rnStyle(styles)
-  if (customStyles) {
-    STYLES = {
-      ...STYLES,
-      ...customStyles
+  let STYLES = {}
+
+  if (styles) {
+    STYLES = global.$rnStyle(styles)
+    if (customStyles) {
+      STYLES = {
+        ...STYLES,
+        ...customStyles
+      }
     }
   }
-
+  
   return (
     <TextInput
       style = { STYLES }

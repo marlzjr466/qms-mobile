@@ -1,24 +1,19 @@
 import { useState, useEffect } from 'react'
-import styles from '@assets/style'
 import { Dimensions } from 'react-native'
 
 // components
 import { useComponent } from '@components'
 const {
   BaseText,
-  BaseIcon,
   BaseButton,
-  BaseImage,
   BaseDiv,
   BaseModal,
   BaseInput,
   BaseGradient
 } = useComponent()
 
-const windowWidth = Dimensions.get('window').width
 export default function SetupConnection () {// meta
-  const { metaStates, metaMutations } = global.reduxMeta.useMeta()
-  const style = styles['modal']
+  const { metaStates, metaMutations } = global.$reduxMeta.useMeta()
 
   const meta = {
     ...metaStates('home', ['setup']),
@@ -32,7 +27,7 @@ export default function SetupConnection () {// meta
   const [host, setHost] = useState(meta.setup[0].host)
   
   return (
-    <BaseModal styles={`w-[${windowWidth}] h-[100%] bg-[rgba(0,0,0,.3)] absolute ph-[25]`}>
+    <BaseModal styles={`w-[${global.$windowWidth}] h-[100%] bg-[rgba(0,0,0,.3)] absolute ph-[25]`}>
       <BaseDiv
         styles="flex w-[100%] p-[20] bg-[#fff] br-[10] top-[250] gap-[5]"
         customStyles={{

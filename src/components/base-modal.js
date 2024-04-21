@@ -1,12 +1,15 @@
 import * as Animatable from 'react-native-animatable'
-import rnStyle from '@package/rn-style'
 
 export default function BaseModal ({ children, styles, customStyles }) {
-  let STYLES = rnStyle(styles)
-  if (customStyles) {
-    STYLES = {
-      ...STYLES,
-      ...customStyles
+  let STYLES = {}
+
+  if (styles) {
+    STYLES = global.$rnStyle(styles)
+    if (customStyles) {
+      STYLES = {
+        ...STYLES,
+        ...customStyles
+      }
     }
   }
 

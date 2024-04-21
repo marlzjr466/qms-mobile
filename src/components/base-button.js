@@ -1,6 +1,5 @@
 import { TouchableOpacity, Text } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
-import rnStyle from '@package/rn-style'
 
 function BaseButton ({
   children,
@@ -11,11 +10,15 @@ function BaseButton ({
   gradientColors, 
   action 
 }) {
-  let STYLES = rnStyle(styles)
-  if (customStyles) {
-    STYLES = {
-      ...STYLES,
-      ...customStyles
+  let STYLES = {}
+
+  if (styles) {
+    STYLES = global.$rnStyle(styles)
+    if (customStyles) {
+      STYLES = {
+        ...STYLES,
+        ...customStyles
+      }
     }
   }
 

@@ -8,7 +8,10 @@ export default str => {
 
   return (
     StyleSheet.create({
-      get: str.split(' ')
+      get: str.replace(/\n+/g, '')
+        .replace(/\s+/g, ' ')
+        .trim()
+        .split(' ')
         .reduce((acc, curr) => {
           const [prop] = curr.split('-[')
           const [_, value] = curr.includes('-[')

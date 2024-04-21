@@ -8,18 +8,20 @@ import {
   Fontisto,
   AntDesign
 } from '@expo/vector-icons'
-import rnStyle from '@package/rn-style'
   
 function BaseIcon ({ type, name, size, color, styles, customStyles }) {
-  let STYLES = rnStyle(styles)
-  if (customStyles) {
-    STYLES = {
-      ...STYLES,
-      ...customStyles
+  let icon = null
+  let STYLES = {}
+
+  if (styles) {
+    STYLES = global.$rnStyle(styles)
+    if (customStyles) {
+      STYLES = {
+        ...STYLES,
+        ...customStyles
+      }
     }
   }
-
-  let icon = null
 
   switch(type) {
     case 'foundation':

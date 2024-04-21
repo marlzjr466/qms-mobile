@@ -1,9 +1,10 @@
 import { useEffect, memo } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, BackHandler } from 'react-native'
+import { StyleSheet, BackHandler, Dimensions } from 'react-native'
 import { ReduxMeta, ReDuxMetaProvider } from '@opensource-dev/redux-meta'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import rnStyle from '@package/rn-style'
 
 const Stack = createNativeStackNavigator()
 
@@ -13,8 +14,16 @@ import root from '@screens'
 // modules
 import modules from '@modules' 
 
-global.reduxMeta = new ReduxMeta()
-global.reduxMeta.useModules(modules())
+// global redux-meta
+global.$reduxMeta = new ReduxMeta()
+global.$reduxMeta.useModules(modules())
+
+// global react-native-style
+global.$rnStyle = rnStyle
+
+// global width | height
+global.$windowWidth = Dimensions.get('window').width
+global.$windowHeight = Dimensions.get('window').height
 
 function App() { 
 	useEffect(() => { // disabling back handler button

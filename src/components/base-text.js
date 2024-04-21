@@ -2,16 +2,19 @@ import { useCallback } from 'react'
 import { Text } from 'react-native'
 import { useFonts } from 'expo-font'
 import * as SplashScreen from 'expo-splash-screen'
-import rnStyle from '@package/rn-style'
 
 SplashScreen.preventAutoHideAsync()
 
 function BaseText({ children, text, styles, customStyles, ellipsis, bold }) {
-  let STYLES = rnStyle(styles)
-  if (customStyles) {
-    STYLES = {
-      ...STYLES,
-      ...customStyles
+  let STYLES = {}
+
+  if (styles) {
+    STYLES = global.$rnStyle(styles)
+    if (customStyles) {
+      STYLES = {
+        ...STYLES,
+        ...customStyles
+      }
     }
   }
 

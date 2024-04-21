@@ -9,7 +9,7 @@ import { useBLE } from '@hooks/useBLE'
 import DeviceModal from '@modals/DeviceConnection'
 
 function Index() {
-  const { metaStates, metaMutations, metaActions, metaGetters } = global.reduxMeta.useMeta()
+  const { metaStates, metaMutations, metaActions, metaGetters } = global.$reduxMeta.useMeta()
   const meta = {
     ...metaStates({
       fullname: 'name/fullname',
