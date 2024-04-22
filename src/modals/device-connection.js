@@ -75,7 +75,7 @@ export default function DeviceConnection ({ devices, connectToPeripheral }) {
                   data={checkDevices(devices)}
                   renderItem={
                     useCallback(item => {
-                      const component = <BaseAnimatable
+                      const list = <BaseAnimatable
                           styles="ph-[10]"
                           animation="bounceInRight"
                           duration={1500}
@@ -115,7 +115,7 @@ export default function DeviceConnection ({ devices, connectToPeripheral }) {
                         </BaseAnimatable>
 
                       listDelayAnimation.current = listDelayAnimation.current + 250
-                      return component
+                      return list
                     }, [connectToPeripheral])
                   }
                 />
