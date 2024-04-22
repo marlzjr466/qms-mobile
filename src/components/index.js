@@ -6,6 +6,8 @@ import BaseDiv from "@components/base-div"
 import BaseGradient from "@components/base-gradient"
 import BaseModal from "@components/base-modal"
 import BaseInput from "@components/base-input"
+import BaseList from "@components/base-list"
+import BaseAnimatable from "@components/base-animatable"
 
 export const useComponent = () => ({
   BaseText,
@@ -15,5 +17,7 @@ export const useComponent = () => ({
   BaseDiv,
   BaseGradient,
   BaseModal,
-  BaseInput
+  BaseInput,
+  BaseList,
+  BaseAnimatable
 })
