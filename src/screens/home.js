@@ -1,5 +1,6 @@
 import { useEffect, memo, useState } from 'react'
 
+
 // components
 import { useComponent } from '@components'
 const {
@@ -21,9 +22,12 @@ import { useBLE } from '@hooks/useBLE'
 // images
 import { images } from '@assets/images'
 
+// utilities
+import { printQueueNumber } from '@utilities/helper'
+
 function home ({ goto }) {
   // meta
-  const { metaStates, metaMutations } = global.$reduxMeta.useMeta()
+  const { metaStates, metaMutations, metaActions } = global.$reduxMeta.useMeta()
 
   const meta = {
     ...metaStates('home', [
@@ -34,7 +38,9 @@ function home ({ goto }) {
 
     ...metaMutations('home', [
       'SET_MODAL'
-    ])
+    ]),
+
+    ...metaActions('home', ['getQueueNumber'])
   }
   
   const {
@@ -43,7 +49,6 @@ function home ({ goto }) {
     allDevices,
     connectToDevice,
     connectedDevice,
-    printer,
     disconnectFromDevice
   } = useBLE()
 
@@ -114,7 +119,7 @@ function home ({ goto }) {
 
 
                   <BaseText styles="color-[rgba(255,255,255,.7)] fs-[15]">
-                    { item.host || '--.--.--.-:----' }
+                    { item.host || item.device || '--.--.--.-:----' }
                   </BaseText>
 
                   <BaseButton
@@ -149,13 +154,21 @@ function home ({ goto }) {
       <BaseDiv styles="flex w-[100%] items-center absolute bottom-[30] left-[20]">
         <BaseGradient
           styles="w-[230] h-[60] br-[40] p-[4]"
-          customStyles={{ opacity: !meta.setup[0].host || !meta.setup[1].host ? .5 : 1 }}
+          customStyles={{ opacity: !meta.setup[0].host || !meta.setup[1].device ? .5 : 1 }}
           colors={['#ffbf6a', '#ff651a']}
           horizontal={true}
         >
           <BaseButton
             styles="w-[100%] h-[100%] br-[40] bw-[4] bc-[#fff] flex justify-center items-center"
-            disabled={!meta.setup[0].host || !meta.setup[1].host}
+            disabled={!meta.setup[0].host || !meta.setup[1].device}
+            action={async () => {
+              const queueNumber = meta.getQueueNumber()
+              const res = await printQueueNumber(queueNumber)
+
+              if (res) {
+                console.log('Queue number generated successfully!')
+              }
+            }}
           >
             <BaseText
               styles="color-[#11335a] opacity-[.7] fs-[15]"

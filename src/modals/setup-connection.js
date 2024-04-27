@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, memo } from 'react'
 import { Dimensions } from 'react-native'
 
 // components
@@ -12,7 +12,7 @@ const {
   BaseGradient
 } = useComponent()
 
-export default function SetupConnection () {// meta
+function SetupConnection () {// meta
   const { metaStates, metaMutations } = global.$reduxMeta.useMeta()
 
   const meta = {
@@ -83,10 +83,7 @@ export default function SetupConnection () {// meta
               styles="w-[100%] h-[100%] br-[40] bw-[2] bc-[#fff] flex justify-center items-center"
               disabled={host === ''}
               action={() => {
-                meta.SET_HOST({
-                  index: 0,
-                  host
-                })
+                meta.SET_HOST(host)
 
                 meta.SET_MODAL('setupConnection')
                 setHost('')
@@ -105,3 +102,5 @@ export default function SetupConnection () {// meta
     </BaseModal>
   )
 }
+
+export default memo (SetupConnection)

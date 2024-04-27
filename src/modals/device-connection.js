@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react"
+import React, { useCallback, useRef, memo } from "react"
 
 // images
 import { images } from '@assets/images'
@@ -16,16 +16,21 @@ const {
   BaseAnimatable
 } = useComponent()
 
-export default function DeviceConnection ({ devices, connectToPeripheral }) {
+function DeviceConnection ({ devices, connectToPeripheral }) {
   const { metaStates, metaMutations } = global.$reduxMeta.useMeta()
-  const meta = {
-    ...metaStates('device-connection', ['deviceModal']),
+  const meta = useCallback({
+    ...metaStates('device-connection', [
+      'deviceModal',
+      'deviceName'
+    ]),
+
+    ...metaStates('home', ['setup']),
     
     ...metaMutations('home', [
-      'SET_MODAL'
+      'SET_MODAL',
+      'SET_DEVICE'
     ])
-  }
-
+  })
   const listDelayAnimation = useRef(0)
   const checkDevices = useCallback(data => data.filter(item => item.name))
   
@@ -97,6 +102,7 @@ export default function DeviceConnection ({ devices, connectToPeripheral }) {
                             gradientColors={['#ffc72b', '#ff971e']}
                             action={() => {
                               connectToPeripheral(item.item)
+                              meta.SET_DEVICE(item.item.name)
                               meta.SET_MODAL('setupPrinter')
                             }}
                           >
@@ -150,3 +156,5 @@ export default function DeviceConnection ({ devices, connectToPeripheral }) {
     </BaseModal>
   )
 }
+
+export default memo (DeviceConnection)

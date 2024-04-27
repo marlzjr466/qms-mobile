@@ -12,6 +12,7 @@
       "@stores/*": ["src/stores/*"],
       "@modals/*": ["src/modals/*"],
       "@package/*": ["src/package/*"],
+      "@utilities/*": ["src/utilities/*"],
       "@components/*": ["src/components/*"]
     }
   }
