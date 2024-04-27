@@ -18,6 +18,7 @@ const {
 
 function DeviceConnection ({ devices, connectToPeripheral }) {
   const { metaStates, metaMutations } = global.$reduxMeta.useMeta()
+  
   const meta = useCallback({
     ...metaStates('device-connection', [
       'deviceModal',
@@ -31,6 +32,7 @@ function DeviceConnection ({ devices, connectToPeripheral }) {
       'SET_DEVICE'
     ])
   })
+
   const listDelayAnimation = useRef(0)
   const checkDevices = useCallback(data => data.filter(item => item.name))
   

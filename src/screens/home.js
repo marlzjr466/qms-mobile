@@ -1,4 +1,4 @@
-import { useEffect, memo, useState } from 'react'
+import { useEffect, memo, useCallback } from 'react'
 
 
 // components
@@ -29,7 +29,7 @@ function home ({ goto }) {
   // meta
   const { metaStates, metaMutations, metaActions } = global.$reduxMeta.useMeta()
 
-  const meta = {
+  const meta = useCallback({
     ...metaStates('home', [
       'header',
       'setup',
@@ -41,7 +41,7 @@ function home ({ goto }) {
     ]),
 
     ...metaActions('home', ['getQueueNumber'])
-  }
+  })
   
   const {
     requestPermissions,

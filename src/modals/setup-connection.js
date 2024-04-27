@@ -1,5 +1,4 @@
-import { useState, useEffect, memo } from 'react'
-import { Dimensions } from 'react-native'
+import { useState, useCallback, memo } from 'react'
 
 // components
 import { useComponent } from '@components'
@@ -15,14 +14,14 @@ const {
 function SetupConnection () {// meta
   const { metaStates, metaMutations } = global.$reduxMeta.useMeta()
 
-  const meta = {
+  const meta = useCallback({
     ...metaStates('home', ['setup']),
 
     ...metaMutations('home', [
       'SET_MODAL',
       'SET_HOST'
     ])
-  }
+  })
 
   const [host, setHost] = useState(meta.setup[0].host)
   
