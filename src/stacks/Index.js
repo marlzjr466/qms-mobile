@@ -1,5 +1,6 @@
 import slider from '@screens/slider'
 import home from '@screens/home'
+import queue from '@screens/queue'
 
 const options = { headerShown: false }
 export default () => [
@@ -11,6 +12,11 @@ export default () => [
   {
     name: 'home',
     component: home,
+    options: options
+  },
+  {
+    name: 'queue',
+    component: queue,
     options: options
   }
 ]

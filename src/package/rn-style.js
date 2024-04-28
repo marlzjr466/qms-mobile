@@ -106,7 +106,10 @@ function getProperty (property) {
     opacity: 'opacity',
     color: 'color',
     fs: 'fontSize',
-    'overflow-hidden': ['overflow', 'hidden']
+    'overflow-hidden': ['overflow', 'hidden'],
+    'text-center': ['textAlign', 'center'],
+    'text-left': ['textAlign', 'left'],
+    'text-right': ['textAlign', 'right']
   }
 
   if (!(property in styles)) {

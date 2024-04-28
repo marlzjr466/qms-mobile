@@ -67,7 +67,7 @@ export default () => ({
       const activeQueueNumber = state.queueNumber
 
       commit('SET_QUEUE_NUMBER', activeQueueNumber + 1)
-      return String(activeQueueNumber).padStart(3, '0')
+      return activeQueueNumber
     }
   }
 })

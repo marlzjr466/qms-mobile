@@ -82,6 +82,7 @@ function SetupConnection () {// meta
               styles="w-[100%] h-[100%] br-[40] bw-[2] bc-[#fff] flex justify-center items-center"
               disabled={host === ''}
               action={() => {
+                global.$socket.connect(host)
                 meta.SET_HOST(host)
 
                 meta.SET_MODAL('setupConnection')

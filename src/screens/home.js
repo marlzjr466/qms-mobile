@@ -1,6 +1,5 @@
 import { useEffect, memo, useCallback } from 'react'
 
-
 // components
 import { useComponent } from '@components'
 const {
@@ -23,9 +22,9 @@ import { useBLE } from '@hooks/useBLE'
 import { images } from '@assets/images'
 
 // utilities
-import { printQueueNumber } from '@utilities/helper'
+import { printQueueNumber, formatQueueNumber } from '@utilities/helper'
 
-function home ({ goto }) {
+function Home ({ goto }) {
   // meta
   const { metaStates, metaMutations, metaActions } = global.$reduxMeta.useMeta()
 
@@ -154,20 +153,22 @@ function home ({ goto }) {
       <BaseDiv styles="flex w-[100%] items-center absolute bottom-[30] left-[20]">
         <BaseGradient
           styles="w-[230] h-[60] br-[40] p-[4]"
-          customStyles={{ opacity: !meta.setup[0].host || !meta.setup[1].device ? .5 : 1 }}
+          // customStyles={{ opacity: !meta.setup[0].host || !meta.setup[1].device ? .5 : 1 }}
           colors={['#ffbf6a', '#ff651a']}
           horizontal={true}
         >
           <BaseButton
             styles="w-[100%] h-[100%] br-[40] bw-[4] bc-[#fff] flex justify-center items-center"
-            disabled={!meta.setup[0].host || !meta.setup[1].device}
+            // disabled={!meta.setup[0].host || !meta.setup[1].device}
             action={async () => {
-              const queueNumber = meta.getQueueNumber()
-              const res = await printQueueNumber(queueNumber)
+              // const queueNumber = formatQueueNumber(meta.getQueueNumber())
+              // const res = await printQueueNumber(queueNumber)
 
-              if (res) {
-                console.log('Queue number generated successfully!')
-              }
+              // if (res) {
+              //   console.log('Queue number generated successfully!')
+              // }
+
+              goto({ child: 'queue' })
             }}
           >
             <BaseText
@@ -195,4 +196,4 @@ function home ({ goto }) {
   )
 }
 
-export default memo (home)
+export default memo (Home)

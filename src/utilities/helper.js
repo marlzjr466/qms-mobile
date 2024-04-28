@@ -26,6 +26,16 @@ async function printQueueNumber (activeQueueNumber) {
   }
 }
 
+function formatQueueNumber (number) {
+  return String(number).padStart(4, '0')
+}
+
+function getDate (format) {
+  return moment().format(format)
+}
+
 export {
-  printQueueNumber
+  printQueueNumber,
+  formatQueueNumber,
+  getDate
 }
