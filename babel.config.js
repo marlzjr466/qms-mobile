@@ -19,6 +19,7 @@ module.exports = function(api) {
             '@modals': './src/modals',
             '@package': './src/package',
             '@components': './src/components',
+            '@constants': './src/constants',
           },
         },
       ]

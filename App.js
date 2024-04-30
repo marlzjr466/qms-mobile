@@ -4,6 +4,7 @@ import { StyleSheet, BackHandler, Dimensions } from 'react-native'
 import { ReduxMeta, ReDuxMetaProvider } from '@opensource-dev/redux-meta'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import rnStyle from '@package/rn-style'
 
 const Stack = createNativeStackNavigator()
@@ -21,6 +22,9 @@ global.$socket = socket
 // global redux-meta
 global.$reduxMeta = new ReduxMeta()
 global.$reduxMeta.useModules(modules())
+
+// global react-native-style
+global.$localStorage = AsyncStorage
 
 // global react-native-style
 global.$rnStyle = rnStyle

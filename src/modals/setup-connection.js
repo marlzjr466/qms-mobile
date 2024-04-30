@@ -81,9 +81,10 @@ function SetupConnection () {// meta
             <BaseButton
               styles="w-[100%] h-[100%] br-[40] bw-[2] bc-[#fff] flex justify-center items-center"
               disabled={host === ''}
-              action={() => {
+              action={async () => {
                 global.$socket.connect(host)
                 meta.SET_HOST(host)
+                global.$localStorage.setItem('host', host)
 
                 meta.SET_MODAL('setupConnection')
                 setHost('')

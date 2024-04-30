@@ -1,5 +1,8 @@
 import { io } from "socket.io-client"
 
+// constants
+import constants from "@constants"
+
 class Socket {
   constructor () {
     this.io = io

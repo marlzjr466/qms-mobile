@@ -36,7 +36,8 @@ function Home ({ goto }) {
     ]),
 
     ...metaMutations('home', [
-      'SET_MODAL'
+      'SET_MODAL',
+      'SET_HOST'
     ]),
 
     ...metaActions('home', ['getQueueNumber'])
@@ -62,8 +63,19 @@ function Home ({ goto }) {
     }
   }
 
+  // check host connection in local storage
+  const checkHost = async () => {
+    const saveHost = await global.$localStorage.getItem('host')
+    
+   if (saveHost) {
+    global.$socket.connect(saveHost)
+    meta.SET_HOST(saveHost)
+   }
+  }
+
   useEffect(() => {
     askPermission()
+    checkHost()
   }, [])
 
   return (
