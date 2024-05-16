@@ -15,10 +15,6 @@ import root from '@screens'
 // modules
 import modules from '@modules' 
 
-// utilities
-import socket from '@utilities/socket'
-global.$socket = socket
-
 // global redux-meta
 global.$reduxMeta = new ReduxMeta()
 global.$reduxMeta.useModules(modules())

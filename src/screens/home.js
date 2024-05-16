@@ -1,5 +1,8 @@
 import { useEffect, memo, useCallback } from 'react'
 
+// utilities
+import socket from '@utilities/socket'
+
 // components
 import { useComponent } from '@components'
 const {
@@ -68,7 +71,7 @@ function Home ({ goto }) {
     const saveHost = await global.$localStorage.getItem('host')
     
    if (saveHost) {
-    global.$socket.connect(saveHost)
+    socket.connect(saveHost)
     meta.SET_HOST(saveHost)
    }
   }
@@ -180,6 +183,7 @@ function Home ({ goto }) {
               //   console.log('Queue number generated successfully!')
               // }
 
+              socket.emit('start-session')
               goto({ child: 'queue' })
             }}
           >

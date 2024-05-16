@@ -1,5 +1,8 @@
 import { useState, useCallback, memo } from 'react'
 
+// utilities
+import socket from '@utilities/socket'
+
 // components
 import { useComponent } from '@components'
 const {
@@ -82,7 +85,7 @@ function SetupConnection () {// meta
               styles="w-[100%] h-[100%] br-[40] bw-[2] bc-[#fff] flex justify-center items-center"
               disabled={host === ''}
               action={async () => {
-                global.$socket.connect(host)
+                socket.connect(host)
                 meta.SET_HOST(host)
                 global.$localStorage.setItem('host', host)
 

@@ -1,5 +1,8 @@
 import { useEffect, memo, useCallback, useState } from 'react'
 
+// utilities
+import socket from '@utilities/socket'
+
 // components
 import { useComponent } from '@components'
 const {
@@ -19,18 +22,24 @@ import { formatQueueNumber, printQueueNumber, getDate } from '@utilities/helper'
 
 function Queue ({ goto }) {
   // meta
-  const { metaStates, metaActions } = global.$reduxMeta.useMeta()
+  const { metaStates, metaMutations, metaActions } = global.$reduxMeta.useMeta()
 
   const meta = useCallback({
     ...metaStates('home', ['queueNumber']),
+    ...metaMutations('home', ['SET_QUEUE_NUMBER']),
     ...metaActions('home', ['getQueueNumber'])
   })
 
   const [currentDate, setCurrentDate] = useState(getDate('MMMM Do YYYY, h:mm:ss a'))
   useEffect(() => {
 
-    global.$socket.on('current-date', date => {
+    socket.on('current-date', date => {
       setCurrentDate(date)
+    })
+
+    socket.on('reset-session', () => {
+      goto({ child: 'home' })
+      meta.SET_QUEUE_NUMBER(1)
     })
   }, [])
 
@@ -104,7 +113,7 @@ function Queue ({ goto }) {
               //   console.log('Queue number generated successfully!')
               // }
 
-              global.$socket.emit('generate-number', queueNumber)
+              socket.emit('generate-number', queueNumber)
               // goto({ child: 'home' })
             }}
           >
