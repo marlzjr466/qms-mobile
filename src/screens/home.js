@@ -168,21 +168,14 @@ function Home ({ goto }) {
       <BaseDiv styles="flex w-[100%] items-center absolute bottom-[30] left-[20]">
         <BaseGradient
           styles="w-[230] h-[60] br-[40] p-[4]"
-          // customStyles={{ opacity: !meta.setup[0].host || !meta.setup[1].device ? .5 : 1 }}
+          customStyles={{ opacity: !meta.setup[0].host || !meta.setup[1].device ? .5 : 1 }}
           colors={['#ffbf6a', '#ff651a']}
           horizontal={true}
         >
           <BaseButton
             styles="w-[100%] h-[100%] br-[40] bw-[4] bc-[#fff] flex justify-center items-center"
-            // disabled={!meta.setup[0].host || !meta.setup[1].device}
+            disabled={!meta.setup[0].host || !meta.setup[1].device}
             action={async () => {
-              // const queueNumber = formatQueueNumber(meta.getQueueNumber())
-              // const res = await printQueueNumber(queueNumber)
-
-              // if (res) {
-              //   console.log('Queue number generated successfully!')
-              // }
-
               socket.emit('start-session')
               goto({ child: 'queue' })
             }}

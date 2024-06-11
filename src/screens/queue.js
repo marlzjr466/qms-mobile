@@ -107,14 +107,13 @@ function Queue ({ goto }) {
             styles="w-[100%] h-[100%] br-[40] bw-[4] bc-[#fff] flex justify-center items-center"
             action={async () => {
               const queueNumber = formatQueueNumber(meta.getQueueNumber())
-              // const res = await printQueueNumber(queueNumber)
+              const res = await printQueueNumber(queueNumber)
 
-              // if (res) {
-              //   console.log('Queue number generated successfully!')
-              // }
+              if (res) {
+                console.log('Queue number generated successfully!')
+              }
 
               socket.emit('generate-number', queueNumber)
-              // goto({ child: 'home' })
             }}
           >
             <BaseText
