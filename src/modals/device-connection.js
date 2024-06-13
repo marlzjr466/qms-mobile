@@ -43,7 +43,7 @@ function DeviceConnection ({ devices, connectToPeripheral }) {
       h-[100%]
       bg-[rgba(0,0,0,.3)]
       absolute
-      ph-[25]
+      ph-[80]
       items-center
       justify-center
     `}>

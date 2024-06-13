@@ -1,3 +1,5 @@
+import axios from "@utilities/axios"
+
 export default () => ({
   metaModule: true,
   name: 'home',
@@ -5,6 +7,7 @@ export default () => ({
   // states
   metaStates: {
     queueNumber: 1,
+    counters: [],
     header: {
       greetings: 'Queueing\nManagement\nSystem',
       message: "Deliver a high-quality services and improve citizens' waiting experience."
@@ -22,6 +25,16 @@ export default () => ({
         }
       },
       {
+        title: 'COUNTERS',
+        counters: 0,
+        buttonText: 'Add counter',
+        background: ['#ff7764', '#f7a13d'],
+        icon: {
+          type: 'antdesign',
+          name: 'appstore-o'
+        }
+      },
+      {
         title: 'PRINTER',
         device: '',
         buttonText: 'Setup printer',
@@ -34,8 +47,10 @@ export default () => ({
     ],
 
     modal: {
+      addCounter: false,
       setupConnection: false,
-      setupPrinter: false
+      setupPrinter: false,
+      endQueueing: false
     }
   },
 
@@ -49,12 +64,20 @@ export default () => ({
       state.modal[payload] = !state.modal[payload]
     },
 
+    SET_COUNTERS_COUNT: (state, { payload }) => {
+      state.setup[1].counters = payload
+    },
+
+    SET_COUNTERS: (state, { payload }) => {
+      state.counters = payload
+    },
+
     SET_HOST: (state, { payload }) => {
       state.setup[0].host = payload
     },
 
     SET_DEVICE: (state, { payload }) => {
-      state.setup[1].device = payload
+      state.setup[2].device = payload
     }
   },
 
@@ -68,6 +91,43 @@ export default () => ({
 
       commit('SET_QUEUE_NUMBER', activeQueueNumber + 1)
       return activeQueueNumber
+    },
+
+    async addCounter ({ dispatch }, params) {
+      const host = await global.$localStorage.getItem('host')
+      const baseApi = axios(host)
+
+      try {
+        await baseApi.post('/qms/counters/create', params)
+        dispatch({ action: 'getCounters' })
+      } catch (error) {
+        throw error
+      }
+    },
+
+    async getCounters ({ commit }) {
+      const host = await global.$localStorage.getItem('host')
+      const baseApi = axios(host)
+
+      try {
+        const res = await baseApi.post('/qms/counters/list')
+
+        commit('SET_COUNTERS', res.data)
+        commit('SET_COUNTERS_COUNT', res.data.length)
+      } catch (error) {
+        throw error
+      }
+    },
+
+    async reset ({ commit }) {
+      const host = await global.$localStorage.getItem('host')
+      const baseApi = axios(host)
+
+      try {
+        await baseApi.post('/qms/reset')
+      } catch (error) {
+        throw error
+      }
     }
   }
 })

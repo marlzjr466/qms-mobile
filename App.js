@@ -26,8 +26,8 @@ global.$localStorage = AsyncStorage
 global.$rnStyle = rnStyle
 
 // global width | height
-global.$windowWidth = Dimensions.get('window').width
-global.$windowHeight = Dimensions.get('window').height
+global.$windowWidth = Math.ceil(Dimensions.get('window').width)
+global.$windowHeight = Math.ceil(Dimensions.get('window').height)
 
 function App() { 
 	useEffect(() => { // disabling back handler button

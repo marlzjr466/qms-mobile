@@ -8,6 +8,7 @@ import BaseModal from "@components/base-modal"
 import BaseInput from "@components/base-input"
 import BaseList from "@components/base-list"
 import BaseAnimatable from "@components/base-animatable"
+import BaseSelect from "@components/base-select"
 
 export const useComponent = () => ({
   BaseText,
@@ -19,5 +20,6 @@ export const useComponent = () => ({
   BaseModal,
   BaseInput,
   BaseList,
-  BaseAnimatable
+  BaseAnimatable,
+  BaseSelect
 })

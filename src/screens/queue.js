@@ -1,4 +1,5 @@
 import { useEffect, memo, useCallback, useState } from 'react'
+import { ToastAndroid } from 'react-native';
 
 // utilities
 import socket from '@utilities/socket'
@@ -11,8 +12,13 @@ const {
   BaseButton,
   BaseImage,
   BaseDiv,
-  BaseGradient
+  BaseGradient,
+  BaseSelect
 } = useComponent()
+
+// modals
+import { useModal } from '@modals'
+const { EndQueueing } = useModal()
 
 // images
 import { images } from '@assets/images'
@@ -25,23 +31,27 @@ function Queue ({ goto }) {
   const { metaStates, metaMutations, metaActions } = global.$reduxMeta.useMeta()
 
   const meta = useCallback({
-    ...metaStates('home', ['queueNumber']),
-    ...metaMutations('home', ['SET_QUEUE_NUMBER']),
+    ...metaStates('home', [
+      'queueNumber',
+      'counters',
+      'modal'
+    ]),
+    ...metaMutations('home', ['SET_MODAL']),
     ...metaActions('home', ['getQueueNumber'])
   })
 
+  const [selectedCounter, setSelectedCounter] = useState(null)
   const [currentDate, setCurrentDate] = useState(getDate('MMMM Do YYYY, h:mm:ss a'))
-  useEffect(() => {
 
+  useEffect(() => {
     socket.on('current-date', date => {
       setCurrentDate(date)
     })
-
-    socket.on('reset-session', () => {
-      goto({ child: 'home' })
-      meta.SET_QUEUE_NUMBER(1)
-    })
   }, [])
+
+  function showToast(msg) {
+    ToastAndroid.show(msg, ToastAndroid.SHORT);
+  }
 
   return (
     <BaseDiv styles="flex-1 bg-[#fff] ph-[20]">
@@ -55,6 +65,16 @@ function Queue ({ goto }) {
         colors={['#fc426f', '#8c52e7']}
         horizontal={true}
       >
+        <BaseButton
+          styles="absolute top-[40] right-[20] opacity-[.3]"
+          action={() => meta.SET_MODAL('endQueueing')}
+        >
+          <BaseIcon
+            styles="fs-[25] color-[#fff]"
+            type="fontawesome"
+            name="power-off"
+          />
+        </BaseButton>
       </BaseGradient>
 
       <BaseImage
@@ -75,7 +95,16 @@ function Queue ({ goto }) {
         </BaseText>
       </BaseDiv>
 
-      <BaseDiv styles={`w-[${global.$windowWidth-40}] flex pv-[30] gap-[10]`}>
+      <BaseSelect
+        width={global.$windowWidth-40}
+        height={45}
+        data={meta.counters.map(x => ({ value: `[C${x.id}] ${x.name}`, id: x.id }))}
+        label='Choose your counter'
+        selected={selectedCounter}
+        onChange={data => setSelectedCounter(data)}
+      />
+
+      <BaseDiv styles={`w-[${global.$windowWidth-40}] flex pv-[10] gap-[10]`}>
         <BaseGradient
           styles="relative w-[100%] h-[200] flex row items-center justify-center br-[15] p-[20]"
           colors={['#21e7ad', '#3770f5']}
@@ -100,20 +129,31 @@ function Queue ({ goto }) {
       <BaseDiv styles="flex w-[100%] items-center absolute bottom-[30] left-[20]">
         <BaseGradient
           styles="w-[230] h-[60] br-[40] p-[4]"
+          customStyles={{ opacity: !selectedCounter ? .5 : 1 }}
           colors={['#ffbf6a', '#ff651a']}
           horizontal={true}
         >
           <BaseButton
             styles="w-[100%] h-[100%] br-[40] bw-[4] bc-[#fff] flex justify-center items-center"
+            disabled={!selectedCounter}
             action={async () => {
-              const queueNumber = formatQueueNumber(meta.getQueueNumber())
-              const res = await printQueueNumber(queueNumber)
+              try {
+                const data = selectedCounter
+                setSelectedCounter(null)
+                const queueNumber = formatQueueNumber(meta.getQueueNumber())
+                const res = await printQueueNumber(queueNumber, data.value)
 
-              if (res) {
-                console.log('Queue number generated successfully!')
+                if (res) {
+                  showToast('Queue number generated.')
+                }
+
+                socket.emit('generate-number', {
+                  ...data,
+                  queue_number: queueNumber
+                })
+              } catch (error) {
+                showToast(`Error: ${error.message}`)
               }
-
-              socket.emit('generate-number', queueNumber)
             }}
           >
             <BaseText
@@ -125,6 +165,8 @@ function Queue ({ goto }) {
           </BaseButton>
         </BaseGradient>
       </BaseDiv>
+
+      { meta.modal.endQueueing && <EndQueueing goto={goto}/> }
     </BaseDiv>
   )
 }
